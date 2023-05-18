@@ -1,46 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { useDispatch, useSelector } from './store';
-import { UserAllProfile } from './store/types/allUser';
-import { getUsersList } from './store/slices/allUser';
+// routing
+import Routes from 'routes';
 
-function App() {
+// project imports
+import Locales from 'ui-component/Locales';
+import NavigationScroll from 'layout/NavigationScroll';
+import RTLLayout from 'ui-component/RTLLayout';
+import Snackbar from 'ui-component/extended/Snackbar';
+import ThemeCustomization from 'themes';
 
-  const dispatch = useDispatch();
+// auth provider
+// import { FirebaseProvider as AuthProvider } from 'contexts/FirebaseContext';
+// import { AWSCognitoProvider as AuthProvider } from 'contexts/AWSCognitoContext';
+import { JWTProvider as AuthProvider } from 'contexts/JWTContext';
+// import { Auth0Provider as AuthProvider } from 'contexts/Auth0Context';
 
-  const [data, setData] = React.useState<UserAllProfile[]>([]);
-  const { dataAllUser } = useSelector((state) => state.allUser);
+// ==============================|| APP ||============================== //
 
-  React.useEffect(() => {
-      setData(dataAllUser);
-  }, [dataAllUser]);
-
-  React.useEffect(() => {
-      dispatch(getUsersList());
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  
-  console.log('data', data)
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => (
+    <ThemeCustomization>
+        {/* RTL layout */}
+        <RTLLayout>
+            <Locales>
+                <NavigationScroll>
+                    <AuthProvider>
+                        <>
+                            <Routes />
+                            <Snackbar />
+                        </>
+                    </AuthProvider>
+                </NavigationScroll>
+            </Locales>
+        </RTLLayout>
+    </ThemeCustomization>
+);
 
 export default App;
